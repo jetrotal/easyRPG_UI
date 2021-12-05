@@ -1,294 +1,327 @@
 import QtQuick 2.7
-import QtQuick.Layouts 1
+import QtQuick.Layouts 1.0
 import QtQuick.Controls 2.15
 import org.kde.kirigami 2.4 as Kirigami
+
 //import "https://raw.githubusercontent.com/jetrotal/easyRPG_layout/main/scripts/qml/test.qml"
-
 GridLayout {
+    QtObject {
+        id: styles
 
-    //VARIABLES SETUP {
+        property string assets: "https://raw.githubusercontent.com/jetrotal/easyRPG_layout/main/"
 
-    property var appButtons: {
-        "workSpace":[ {
-            obj:"appHome", hasSeparator:1, display:"Home", action:""
-        }, {
-            obj:"mapEditor", hasSeparator:0, display:"Map Editor", action:""
-        }, {
-            obj:"databaseEditor", hasSeparator:0, display:"Database Editor", action:""
-        }, {
-            obj:"eventsEditor", hasSeparator:1, display:"Events Editor", action:""
-        }, {
-            obj:"resourceManager", hasSeparator:0, display:"Resource Manager", action:""
-        }, {
-            obj:"gameSearch", hasSeparator:1, display:"Search", action:""
-        }, {
-            obj:"bgmTest", hasSeparator:1, display:"BGM test", action:""
-        }, {
-            obj:"gameSettings", hasSeparator:0, display:"Playtest Settings", action:""
-        }, {
-            obj:"gamePlay", hasSeparator:0, display:"Begin Playtest", action:""
-        }],
-        
-        "window":[ {
-            obj:"min", action:""
-        },
-            {
-                obj:"max", action:""
-            },
-            {
-                obj: "close", action:""
-            }],
-        "header":[{
-            /*TODO DYNAMIC HEADER MENU*/
-        }]
-    };//
+        property var colors: {
+            "bg": "#292b2f",
+            "header": "#242529",
+            "textA": "#97999C",
+            "textB": "#FFF",
+            "highlight": "#8AFF4E",
+            "separator": "#555",
+            "darkBorders": "#1e1e1e"
+        }
 
-    property var assets: "https://raw.githubusercontent.com/jetrotal/easyRPG_layout/main/"
-
-    property var colors: {
-        "bg":"#292b2f",
-        "header":"#242529",
-        "textA":"#97999C",
-        "textB":"#FFF",
-        "highlight":"#8AFF4E",
-        "separator":"#555",
-        "darkBorders":"#1e1e1e"
-    }
-
-    property var images: {
-        "logo":assets + "img/ez-logo.svg",
-        "bg":assets + "img/bg/tile.svg",
-        "icons": {
-            "win": {
-                "url":assets + "img/icons/window/", size:16
-            },
-            "top": {
-                "url":assets + "img/icons/top/", size:39
+        property var images: {
+            "logo": assets + "img/ez-logo.svg",
+            "bg": assets + "img/bg/tile.svg",
+            "icons": {
+                "win": {
+                    "url": assets + "img/icons/window/",
+                    "size": 16
+                },
+                "top": {
+                    "url": assets + "img/icons/top/",
+                    "size": 39
+                }
             }
-        },
+        }
+    } // STYLES
 
+    QtObject {
+        id: variables
 
-    }
+        property var appButtons: {
+            "workSpace": [{
+                "obj": "appHome",
+                "hasSeparator": 1,
+                "display": "Home",
+                "action": ""
+            }, {
+                "obj": "mapEditor",
+                "hasSeparator": 0,
+                "display": "Map Editor",
+                "action": ""
+            }, {
+                "obj": "databaseEditor",
+                "hasSeparator": 0,
+                "display": "Database Editor",
+                "action": ""
+            }, {
+                "obj": "eventsEditor",
+                "hasSeparator": 1,
+                "display": "Events Editor",
+                "action": ""
+            }, {
+                "obj": "resourceManager",
+                "hasSeparator": 0,
+                "display": "Resource Manager",
+                "action": ""
+            }, {
+                "obj": "gameSearch",
+                "hasSeparator": 1,
+                "display": "Search",
+                "action": ""
+            }, {
+                "obj": "bgmTest",
+                "hasSeparator": 1,
+                "display": "BGM test",
+                "action": ""
+            }, {
+                "obj": "gameSettings",
+                "hasSeparator": 0,
+                "display": "Playtest Settings",
+                "action": ""
+            }, {
+                "obj": "gamePlay",
+                "hasSeparator": 0,
+                "display": "Begin Playtest",
+                "action": ""
+            }],
+            "window": [{
+                "obj": "min",
+                "action": ""
+            }, {
+                "obj": "max",
+                "action": ""
+            }, {
+                "obj": "close",
+                "action": ""
+            }],
+            "header": [{
+                /*TODO DYNAMIC HEADER MENU*/
+            }]
+        }
+    } // VARIABLES
 
-    function identifyButton(bt,type) {
-        console.log("You clicked: " + bt.obj)
-        if (type =="workspace") return changeWorkspace(bt)
-        if (type =="window") return console.log(bt.obj +" - nothing yet")
-    }
+    QtObject {
+        id: functions
 
-    function changeWorkspace(e) {
+        function identifyButton(bt, type) {
+            console.log("You clicked: " + bt.obj)
+            if (type === "workspace")
+                return changeWorkspace(bt)
+            if (type === "window")
+                return console.log(bt.obj + " - nothing yet")
+        }
 
-        currWorkspace.text = "<pre><font color='"+colors.textB+"'>  "+e.display+"  </pre>"
-    }
+        function changeWorkspace(e) {
+
+            currWorkspace.text = "<pre><font color='" + styles.colors.textB + "'>  " + e.display + "  </pre>"
+        }
+    } // FUNCTIONS
 
     //}
+    id: root
 
-    id : root
-    rows : 2
-    columns : 1
-    anchors.fill : parent
-    columnSpacing : 0
-    rowSpacing : 0
+    rows: 2
+    columns: 1
+    anchors.fill: parent
+    columnSpacing: 0
+    rowSpacing: 0
 
     Rectangle {
-        id : header
-        color : colors.header
-        Layout.fillWidth : true
-        height : 67
+        id: header
+        
+        color: styles.colors.header
+        Layout.fillWidth: true
+        height: 67
+        Layout.bottomMargin: 1
 
         GridLayout {
-            rows : 2
-            columns : 2
-            anchors.fill : parent
-            columnSpacing : 0
-            rowSpacing : 0
+        id:headerTop
+        
+            rows: 2
+            columns: 2
+            anchors.fill: parent
+            columnSpacing: 0
+            rowSpacing: 0
             anchors.bottom: parent.top
 
             Row {
-                spacing:10
-                Layout.fillWidth : true
+                spacing: 10
+                Layout.fillWidth: true
 
                 Text {
 
-                    text:"&nbsp; <img src='"+ images.logo + "' width='18' height='18'></img>"
+                    text: "&nbsp; <img src='" + styles.images.logo + "' width='18' height='18'></img>"
                     font.pointSize: 8
                     font.family: "Helvetica"
                     color: "white"
-                    Layout.fillWidth : true
+                    Layout.fillWidth: true
                 }
 
-
                 Repeater {
-                    model : ["Game","Projects","Maps","View","Tools","Game","Help","Debug"]
+                    model: ["Game", "Projects", "Maps", "View", "Tools", "Game", "Help", "Debug"]
 
                     RoundButton {
-                        radius:0
-                        height:13
-                        background.visible:false
-                        text:"<font color='"+colors.textB+"'>"+modelData
+                        radius: 0
+                        height: 13
+                        background.visible: false
+                        text: "<font color='" + styles.colors.textB + "'>" + modelData
                         font.pointSize: 8
-                        Layout.fillWidth : true
+                        Layout.fillWidth: true
                     }
                 }
             }
             Row {
-                Layout.topMargin:-10
+                Layout.topMargin: -10
                 Repeater {
-                    model : appButtons.window
+                    model: variables.appButtons.window
 
                     RoundButton {
-                        radius:0;
-                        background.visible:false
-                        icon.height:images.icons.win.size
-                        icon.width:images.icons.win.size
+                        radius: 0
+                        background.visible: false
+                        icon.height: styles.images.icons.win.size
+                        icon.width: styles.images.icons.win.size
 
-                        icon.source:images.icons.win.url + modelData.obj + ".svg"
-                        icon.color : this.hovered ? colors.highlight : colors.textB
-                        onClicked: root.identifyButton(modelData,"window")
-
-
-
+                        icon.source: styles.images.icons.win.url + modelData.obj + ".svg"
+                        icon.color: this.hovered ? styles.colors.highlight : styles.colors.textB
+                        onClicked: functions.identifyButton(modelData, "window")
                     }
-
-
-
                 }
                 Text {
-                    text:" "
+                    text: " "
                 }
             }
             Text {} // Hack to fix the grid Layout
-
-
-
         }
 
-        Layout.bottomMargin:1
         Row {
+        id:headerBottom
+        
             anchors.bottom: parent.bottom
-            Layout.fillWidth : true
-            leftPadding:14
+            Layout.fillWidth: true
+            leftPadding: 14
 
             TabBar {
-                id:headerMenu
+                id: headerMenu
                 spacing: 0
-                background.visible:false
-
+                background.visible: false
 
                 Repeater {
 
-                    model :appButtons.workSpace
+                    model: variables.appButtons.workSpace
 
                     TabButton {
                         property var separator: modelData.hasSeparator
 
-                        icon.source :images.icons.top.url + modelData.obj + ".svg"
-                        width : images.icons.top.size + (22 *separator)
-                        height : width
-                        icon.color : checked ? colors.highlight : colors.textA
-                        text:"<font color='"+colors.separator+"'><pre>"+" |"+"</font>"
+                        icon.source: styles.images.icons.top.url + modelData.obj + ".svg"
+                        width: styles.images.icons.top.size + (22 * separator)
+                        height: width
+                        icon.color: checked ? styles.colors.highlight : styles.colors.textA
+                        text: "<font color='" + styles.colors.separator + "'><pre>" + " |" + "</font>"
                         font.pointSize: 12
-                        background.visible:false
-                        onClicked: root.identifyButton(modelData,"workspace")
+                        background.visible: false
+                        onClicked: functions.identifyButton(modelData, "workspace")
                     }
                 }
             }
         }
-
-    }// HEADER END
+    } // HEADER END
 
     Rectangle {
-        id : body
-        color : colors.bg
-        Layout.fillWidth : true
-        Layout.fillHeight : true
-        Layout.topMargin:-2
+        id: body
+        
+        color: styles.colors.bg
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        Layout.topMargin: -2
 
         Image {
-            id:bgPattern
+            id: bgPattern
 
-            width: 2000; height: 2000
+            width: 2000
+            height: 2000
             fillMode: Image.Tile
             horizontalAlignment: Image.AlignLeft
             verticalAlignment: Image.AlignTop
-            source: images.bg
-            opacity:0.05
-            Layout.fillWidth : true
-            Layout.fillHeight : true
+            source: styles.images.bg
+            opacity: 0.05
+            Layout.fillWidth: true
+            Layout.fillHeight: true
         }
         TabBar {
-            Layout.fillWidth : true
-            spacing:10
-            topPadding:10; leftPadding:-5
-            background.visible:false
+        id:openElementslist
+        
+            Layout.fillWidth: true
+            spacing: 10
+            topPadding: 10
+            leftPadding: -5
+            background.visible: false
 
             TabButton {
-                id:currWorkspace
-                height:30
-                enabled:false
+                id: currWorkspace
+                height: 30
+                enabled: false
                 font.pointSize: 9
-                text:"<pre><font color='"+colors.textB+"'>  "+"Home"+"  </pre>"
-                width: text.length *3
-                background:Rectangle {
-                    radius:3; color:colors.header
-                    border.color:colors.darkBorders; border.width:1; //"#36373A"
+                text: "<pre><font color='" + styles.colors.textB + "'>  " + "Home" + "  </pre>"
+                width: text.length * 3
+                background: Rectangle {
+                    radius: 3
+                    color: styles.colors.header
+                    border.color: styles.colors.darkBorders
+                    border.width: 1 //"#36373A"
                 }
             } // WORKSPACE-TITLE END
 
-
             Repeater {
 
-                model :["MAP0001", "MAP0002","MAP0003","MAP0456",]
+                model: ["MAP0001", "MAP0002", "MAP0003", "MAP0456"]
 
                 TabButton {
-                    height:30
+                    height: 30
                     font.pointSize: 9
-                    icon.source :images.icons.top.url+"mapEditor.svg"
-                    icon.color : checked ? colors.highlight : colors.textA
-                    icon.height:images.icons.win.size
-                    icon.width:images.icons.win.size
+                    icon.source: styles.images.icons.top.url + "mapEditor.svg"
+                    icon.color: checked ? styles.colors.highlight : styles.colors.textA
+                    icon.height: styles.images.icons.win.size
+                    icon.width: styles.images.icons.win.size
 
-                    text:"<pre><font color='"+(checked ? colors.textB : colors.textA)+"'>"+modelData+" "
-                    background:Rectangle {
-                        radius:3; color:colors.darkBorders
-                        border.color:parent.checked ? colors.highlight: colors.header
-                        border.width:1; //"#36373A"
-                        Component.onCompleted: console.log(model);
+                    text: "<pre><font color='" + (checked ? styles.colors.textB : styles.colors.textA) + "'>" + modelData + " "
+                    background: Rectangle {
+                        radius: 3
+                        color: styles.colors.darkBorders
+                        border.color: parent.checked ? styles.colors.highlight : styles.colors.header
+                        border.width: 1 //"#36373A"
+                        Component.onCompleted: console.log(model)
                     }
                 } // TESTING DUMMY BUTTONS
             }
         }
-
-
     } // BODY END
 
     Rectangle {
-        id : footer
+        id: footer
 
-        color : colors.header
-        Layout.fillWidth : true
-        height : 27
-        Layout.bottomMargin:-1
+        color: styles.colors.header
+        Layout.fillWidth: true
+        height: 27
+        Layout.bottomMargin: -1
 
         GridLayout {
-            rows : 3
-            columns : 2
-            anchors.fill : parent
-            columnSpacing : 0
-            rowSpacing : 0
+            rows: 3
+            columns: 2
+            anchors.fill: parent
+            columnSpacing: 0
+            rowSpacing: 0
             anchors.bottom: parent.top
 
             Text {
-                Layout.fillWidth : true
-
+                Layout.fillWidth: true
             }
             Text {
 
-                text:"<font color='"+colors.textA+"'>easyRPG.org </font>   ~"
+                text: "<font color='" + styles.colors.textA + "'>easyRPG.org </font>   ~"
                 font.pointSize: 8
             }
-
-
         }
     } // FOOTER END
 }
