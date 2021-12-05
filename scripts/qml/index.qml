@@ -42,7 +42,7 @@ GridLayout {
         }]
     };//
 
-    property var assets: "https://jetrotal.github.io/easyRPG_UI/" //"https://raw.githubusercontent.com/jetrotal/easyRPG_layout/main/"
+    property var assets: "https://raw.githubusercontent.com/jetrotal/easyRPG_layout/main/"
 
     property var colors: {
         "bg":"#292b2f",
@@ -77,7 +77,7 @@ GridLayout {
 
     function changeWorkspace(e) {
 
-        currWorkspace.text = "<pre><font color='"+colors.textA+"'>  "+e.display+"  </pre>"
+        currWorkspace.text = "<pre><font color='"+colors.textB+"'>  "+e.display+"  </pre>"
     }
 
     //}
@@ -93,7 +93,7 @@ GridLayout {
         id : header
         color : colors.header
         Layout.fillWidth : true
-        height : root.height / root.rows /6.5
+        height : 67
 
         GridLayout {
             rows : 2
@@ -226,7 +226,7 @@ GridLayout {
                 height:30
                 enabled:false
                 font.pointSize: 9
-                text:"<pre><font color='"+colors.textA+"'>  "+"Home"+"  </pre>"
+                text:"<pre><font color='"+colors.textB+"'>  "+"Home"+"  </pre>"
                 width: text.length *3
                 background:Rectangle {
                     radius:3; color:colors.header
@@ -234,23 +234,27 @@ GridLayout {
                 }
             } // WORKSPACE-TITLE END
 
-            
-                Repeater {
 
-                    model :["MAP0001", "MAP0002","MAP0003","MAP0456",   ]
+            Repeater {
 
-            TabButton {
-                height:30
-                font.pointSize: 9
-                icon.source :images.icons.top.url+"mapEditor.svg"
-                icon.color : checked ? colors.highlight : colors.textA
-                text:"<pre><font color='"+(checked ? colors.textB : colors.textA)+"'>"+modelData+" "
-                background:Rectangle {
-                    radius:3; color:colors.darkBorders
-                    border.color:parent.checked ? colors.highlight: colors.header
-                    border.width:1; //"#36373A"
-                }
-            } // TESTING DUMMY BUTTONS
+                model :["MAP0001", "MAP0002","MAP0003","MAP0456",]
+
+                TabButton {
+                    height:30
+                    font.pointSize: 9
+                    icon.source :images.icons.top.url+"mapEditor.svg"
+                    icon.color : checked ? colors.highlight : colors.textA
+                    icon.height:images.icons.win.size
+                    icon.width:images.icons.win.size
+
+                    text:"<pre><font color='"+(checked ? colors.textB : colors.textA)+"'>"+modelData+" "
+                    background:Rectangle {
+                        radius:3; color:colors.darkBorders
+                        border.color:parent.checked ? colors.highlight: colors.header
+                        border.width:1; //"#36373A"
+                        Component.onCompleted: console.log(model);
+                    }
+                } // TESTING DUMMY BUTTONS
             }
         }
 
@@ -262,7 +266,7 @@ GridLayout {
 
         color : colors.header
         Layout.fillWidth : true
-        height : root.height / root.rows / 15
+        height : 27
         Layout.bottomMargin:-1
 
         GridLayout {
