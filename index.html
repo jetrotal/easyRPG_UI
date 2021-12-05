@@ -22,6 +22,7 @@
                 console.log(`qml error: ${JSON.stringify(data)}`)
             },
             posInit: function() {
+console.log("???" + Array.prototype.slice.apply(document.getElementsByTagName('script')).find(e => e.type == 'text/qml').text)
                 qml.setCode(Array.prototype.slice.apply(document.getElementsByTagName('script')).find(e => e.type == 'text/qml').text)
             },
         })
