@@ -2,7 +2,7 @@ import QtQuick 2.7
 import QtQuick.Layouts 1
 import QtQuick.Controls 2.15
 import org.kde.kirigami 2.4 as Kirigami
-//import "https://raw.githubusercontent.com/jetrotal/easyRPG_layout/main/js/test.qml"
+//import "https://raw.githubusercontent.com/jetrotal/easyRPG_layout/main/scripts/qml/test.qml"
 
 GridLayout {
 
@@ -28,6 +28,7 @@ GridLayout {
         }, {
             obj:"gamePlay", hasSeparator:0, display:"Begin Playtest", action:""
         }],
+        
         "window":[ {
             obj:"min", action:""
         },
@@ -123,7 +124,7 @@ GridLayout {
                     RoundButton {
                         radius:0
                         height:13
-                        background.opacity:0
+                        background.visible:false
                         text:"<font color='"+colors.textB+"'>"+modelData
                         font.pointSize: 8
                         Layout.fillWidth : true
@@ -137,7 +138,7 @@ GridLayout {
 
                     RoundButton {
                         radius:0;
-                        background.opacity : 0
+                        background.visible:false
                         icon.height:images.icons.win.size
                         icon.width:images.icons.win.size
 
@@ -171,7 +172,7 @@ GridLayout {
             TabBar {
                 id:headerMenu
                 spacing: 0
-                background.opacity : 0
+                background.visible:false
 
 
                 Repeater {
@@ -187,7 +188,7 @@ GridLayout {
                         icon.color : checked ? colors.highlight : colors.textA
                         text:"<font color='"+colors.separator+"'><pre>"+" |"+"</font>"
                         font.pointSize: 12
-                        background.opacity : 0
+                        background.visible:false
                         onClicked: root.identifyButton(modelData,"workspace")
                     }
                 }
@@ -219,7 +220,7 @@ GridLayout {
             Layout.fillWidth : true
             spacing:10
             topPadding:10; leftPadding:-5
-            background.opacity:0
+            background.visible:false
 
             TabButton {
                 id:currWorkspace
@@ -285,7 +286,6 @@ GridLayout {
 
                 text:"<font color='"+colors.textA+"'>easyRPG.org </font>   ~"
                 font.pointSize: 8
-                opacity:0.2
             }
 
 
