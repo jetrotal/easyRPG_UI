@@ -262,7 +262,7 @@ GridLayout {
                 id: currWorkspace
                 height: 30
                 enabled: false
-                font.pointSize: 9
+                font.pointSize: 8
                 text: "<pre><font color='" + styles.colors.textB + "'>  " + "Home" + "  </pre>"
                 width: text.length * 3
                 background: Rectangle {
@@ -279,7 +279,7 @@ GridLayout {
 
                 TabButton {
                     height: 30
-                    font.pointSize: 9
+                    font.pointSize: 8
                     icon.source: styles.images.icons.top.url + "mapEditor.svg"
                     icon.color: checked ? styles.colors.highlight : styles.colors.textA
                     icon.height: styles.images.icons.win.size
