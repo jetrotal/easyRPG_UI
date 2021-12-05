@@ -1,5 +1,4 @@
-textIsLoaded = function(target){
-console.log(target) };
+textIsLoaded = function(target){ console.log(target) } // replace this function with whatever happens after loading the External Text.
 
 function loadLocalText(target) {
   var rawFile = new XMLHttpRequest();
