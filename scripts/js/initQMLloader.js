@@ -8,7 +8,6 @@ function initQMLloader(target) {
                 console.log(`qml error: ${JSON.stringify(data)}`)
             },
             posInit: function() {
-console.log("???" + Array.prototype.slice.apply(document.getElementsByTagName('script')).find(e => e.type == 'text/qml').innerHTML)
                 qml.setCode(target)
             },
         })
