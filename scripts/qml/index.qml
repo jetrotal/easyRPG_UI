@@ -42,7 +42,7 @@ GridLayout {
         }]
     };//
 
-    property var assets: "/"
+    property var assets: window.location.href //"https://raw.githubusercontent.com/jetrotal/easyRPG_layout/main/"
 
     property var colors: {
         "bg":"#292b2f",
