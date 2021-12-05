@@ -5,30 +5,13 @@
 <body>
     <script type="text/javascript" src="https://qmlonline.kde.org/qtloader.js"></script>
     <script type="text/javascript" src="https://qmlonline.kde.org/qml.js"></script>
+    <script type="text/javascript" src="scripts/loadLocalText.js"></script>
+    <script type="text/javascript" src="scripts/initQML.js" defer></script>
 
     <div id="qmlonline"></div>
 
-    <script type='text/qml' src='js/index.qml' id="funcione">
+    <script type='text/qml' src='js/index.qml' id="qmlScriptReceiver">
+    </script>
     
-    </script>
-
-    <script type='text/javascript'>
-
-        const qml = new QmlOnline("qmlonline")
-        qml.registerCall({
-            qmlMessage: function(msg) {
-                console.log(`qml message: ${msg}`)
-            },
-            qmlError: function(data) {
-                console.log(`qml error: ${JSON.stringify(data)}`)
-            },
-            posInit: function() {
-console.log("???" + Array.prototype.slice.apply(document.getElementsByTagName('script')).find(e => e.type == 'text/qml').innerHTML)
-                qml.setCode(Array.prototype.slice.apply(document.getElementsByTagName('script')).find(e => e.type == 'text/qml').innerHTML)
-            },
-        })
-        qml.init()
-        
-    </script>
 </body>
 </html>
