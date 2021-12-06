@@ -4,11 +4,16 @@ import QtQuick.Controls 2.15
 import org.kde.kirigami 2.4 as Kirigami
 
 //import "https://raw.githubusercontent.com/jetrotal/easyRPG_layout/main/scripts/qml/test.qml"
-GridLayout {
-    QtObject {
+
+MainApp {
+    id: mainApp
+//aaaaaah{
+    property string assets: "https://raw.githubusercontent.com/jetrotal/easyRPG_layout/main/"
+
+    component LoadStyles : QtObject {
         id: styles
 
-        property string assets: "https://raw.githubusercontent.com/jetrotal/easyRPG_layout/main/"
+
 
         property var colors: {
             "bg": "#292b2f",
@@ -35,8 +40,7 @@ GridLayout {
             }
         }
     } // STYLES
-
-    QtObject {
+    component LoadVariables: QtObject {
         id: variables
 
         property var appButtons: {
@@ -101,11 +105,10 @@ GridLayout {
             }]
         }
     } // VARIABLES
-
-    QtObject {
+    component LoadFunctions: QtObject {
         id: functions
 
-        function identifyButton(bt, type) {
+        function detectCommand(bt, type) {
             console.log("You clicked: " + bt.obj)
             if (type === "workspace")
                 return changeWorkspace(bt)
@@ -118,45 +121,113 @@ GridLayout {
             currWorkspace.text = "<pre><font color='" + styles.colors.textB + "'>  " + e.display + "  </pre>"
         }
     } // FUNCTIONS
+    component LoadComponents: QtObject {
+        // Check Load "Components {}" for the components itselves
+    }
 
-    //}
-    id: root
 
-    rows: 2
-    columns: 1
-    anchors.fill: parent
-    columnSpacing: 0
-    rowSpacing: 0
+    LoadStyles {
+        id:styles
+    }
+    LoadVariables {
+        id:variables
+    }
+    LoadFunctions {
+        id:functions
+    } //}
+    LoadComponents {
+        id:components
 
-    Rectangle {
-        id: header
-        
-        color: styles.colors.header
-        Layout.fillWidth: true
-        height: 67
-        Layout.bottomMargin: 1
 
-        GridLayout {
-        id:headerTop
-        
+
+
+        component MainApp : GridLayout {
+            id: mainApp
+
             rows: 2
+            columns: 1
+            anchors.fill: parent
+            columnSpacing: 0
+            rowSpacing: 0
+        }
+
+        component Logo:Text {
+            y: -font.pixelSize/3
+            property var size:18
+            text: "&nbsp; <img src='" + styles.images.logo + "' width='"+size+"' height='"+size+"'></img>"
+
+        }
+        component BGimage : Image {
+            id: bgPattern
+
+            width: 2000
+            height: 2000
+            fillMode: Image.Tile
+            horizontalAlignment: Image.AlignLeft
+            verticalAlignment: Image.AlignTop
+            source: styles.images.bg
+            // opacity: 0.05
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+        }
+
+        component WindowCommands : RoundButton {
+            radius: 0
+            background.visible: false
+            icon.height: styles.images.icons.win.size
+            icon.width: styles.images.icons.win.size
+
+            icon.source: styles.images.icons.win.url + modelData.obj + ".svg"
+            icon.color: this.hovered ? styles.colors.highlight : styles.colors.textB
+            onClicked: functions.detectCommand(modelData, "window")
+        }
+
+        component Header: Rectangle {
+            id: header
+
+            color: styles.colors.header
+            Layout.fillWidth: true
+            height: 67
+            Layout.bottomMargin: 1
+        }
+        component HeaderTop: GridLayout {
+            id:headerTop
             columns: 2
             anchors.fill: parent
             columnSpacing: 0
             rowSpacing: 0
             anchors.bottom: parent.top
 
+        }
+
+        component WorkspaceButton: TabButton {
+            //property alias source: image.source
+
+            property var separator: modelData.hasSeparator
+
+            icon.source: styles.images.icons.top.url + modelData.obj + ".svg"
+            width: styles.images.icons.top.size + (22 * separator)
+            height: width
+            icon.color: checked ? styles.colors.highlight : styles.colors.textA
+            text: "<font color='" + styles.colors.separator + "'><pre>" + " |" + "</font>"
+            font.pointSize: 12
+            background.visible: false
+
+        }
+    }
+
+    Header {
+        id: header
+
+        HeaderTop {
             Row {
                 spacing: 10
                 Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.topMargin:11
 
-                Text {
-
-                    text: "&nbsp; <img src='" + styles.images.logo + "' width='18' height='18'></img>"
-                    font.pointSize: 8
-                    font.family: "Helvetica"
-                    color: "white"
-                    Layout.fillWidth: true
+                Logo {
+                    size:18
                 }
 
                 Repeater {
@@ -173,31 +244,22 @@ GridLayout {
                 }
             }
             Row {
-                Layout.topMargin: -10
+                Layout.topMargin: -32
+
                 Repeater {
+                
                     model: variables.appButtons.window
 
-                    RoundButton {
-                        radius: 0
-                        background.visible: false
-                        icon.height: styles.images.icons.win.size
-                        icon.width: styles.images.icons.win.size
-
-                        icon.source: styles.images.icons.win.url + modelData.obj + ".svg"
-                        icon.color: this.hovered ? styles.colors.highlight : styles.colors.textB
-                        onClicked: functions.identifyButton(modelData, "window")
+                    WindowCommands {
+                        onClicked: functions.detectCommand(modelData, "window")
                     }
                 }
-                Text {
-                    text: " "
-                }
             }
-            Text {} // Hack to fix the grid Layout
         }
 
         Row {
-        id:headerBottom
-        
+            id:headerBottom
+
             anchors.bottom: parent.bottom
             Layout.fillWidth: true
             leftPadding: 14
@@ -211,17 +273,9 @@ GridLayout {
 
                     model: variables.appButtons.workSpace
 
-                    TabButton {
-                        property var separator: modelData.hasSeparator
+                    WorkspaceButton {
+                        onClicked: functions.detectCommand(modelData, "workspace")
 
-                        icon.source: styles.images.icons.top.url + modelData.obj + ".svg"
-                        width: styles.images.icons.top.size + (22 * separator)
-                        height: width
-                        icon.color: checked ? styles.colors.highlight : styles.colors.textA
-                        text: "<font color='" + styles.colors.separator + "'><pre>" + " |" + "</font>"
-                        font.pointSize: 12
-                        background.visible: false
-                        onClicked: functions.identifyButton(modelData, "workspace")
                     }
                 }
             }
@@ -230,28 +284,18 @@ GridLayout {
 
     Rectangle {
         id: body
-        
+
         color: styles.colors.bg
         Layout.fillWidth: true
         Layout.fillHeight: true
         Layout.topMargin: -2
 
-        Image {
-            id: bgPattern
-
-            width: 2000
-            height: 2000
-            fillMode: Image.Tile
-            horizontalAlignment: Image.AlignLeft
-            verticalAlignment: Image.AlignTop
-            source: styles.images.bg
-            opacity: 0.05
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+        BGimage {
+            opacity:0.05
         }
         TabBar {
-        id:openElementslist
-        
+            id:openElementslist
+
             Layout.fillWidth: true
             spacing: 10
             topPadding: 10
