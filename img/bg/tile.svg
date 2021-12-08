@@ -1,23 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32">
-<defs>
-<g id="Layer0_0_FILL">
-<path fill="#27292D" stroke="none" d="
-M 9.25 22.5
-L 9.25 6.5 -6.75 6.5 -6.75 22.5 9.25 22.5 Z"/>
-</g>
-
-<g id="Layer0_1_FILL">
-<path fill="#27292D" stroke="none" d="
-M 9.25 22.5
-L 9.25 6.5 -6.75 6.5 -6.75 22.5 9.25 22.5 Z"/>
-</g>
-</defs>
-
-<g transform="matrix( 1, 0, 0, 1, 6.75,-6.5) ">
-<use xlink:href="#Layer0_0_FILL"/>
-</g>
-
-<g transform="matrix( 1, 0, 0, 1, 22.75,9.5) ">
-<use xlink:href="#Layer0_1_FILL"/>
-</g>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" viewBox="0 0 32 32">
+  <defs>
+    <path xmlns="http://www.w3.org/2000/svg" id="a" fill="#27292D" d="M9.3 22.5v-16h-16v16h16Z"/>
+  </defs>
+  <use xlink:href="#a" transform="translate(6.8 -6.5)"/>
+  <use xlink:href="#a" transform="translate(22.8 9.5)"/>
 </svg>
