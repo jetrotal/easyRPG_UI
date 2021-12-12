@@ -10,8 +10,9 @@ ApplicationWindow {
 
     id: app
     visible: true
-    width: 800; height: 600
-    background: ez.bg
+
+    minimumWidth: 720; minimumHeight: 480
+    background:ez.bg;
 
     component Content : Rectangle {
         anchors.margins:20;
@@ -26,7 +27,8 @@ ApplicationWindow {
         property real multi: 1
         property var style: {
 
-            "sizes": {"text":9*multi,
+            "sizes": {
+                "text":9*multi,
                 "logo": 16*multi,
                 "win":16*multi,
                 "icon":24*multi
@@ -34,7 +36,6 @@ ApplicationWindow {
             },
 
             "colors": {
-                "transparent": "rgba(0,0,0,0)",
                 "bg": "#292b2f",
                 "header": "#242529",
                 "textA": "#97999C",
@@ -138,18 +139,25 @@ ApplicationWindow {
 
         function listProperty(item) {
             // debug props
-            var result="test ";
-            for (var p in item) console.log(p + ": " + item[p]);
-            console.log(result)
+            var result="";
+            for (var p in item) result += String(item[p]) !== "function() { [native code] }" ? (p +": " + (String(item[p]) ==="[object Object]" ?" {; "+ listProperty(item[p])+" } " : item[p]) +`;`):"";
+            return(result.split(';').join(pathIsLocal ? "\n" : "<br>"))
         }
 
 
-        function detectCommand(bt, type) {
-           if (debug===1) footerMark.text = ("running detectCommand() - You clicked: " + bt.obj + "  |  Type: "+type)
+        function detectCommand(bt, type,qmlItem) {
+            if (debug===1) footerMark.text = ("running detectCommand() - You clicked: " + bt.obj + "  |  Type: "+type),
+            console.log(ez.listProperty(qmlItem));
+
+
             if (type === "workspace")
                 return changeWorkspace(bt)
-            if (type === "window")
-                return console.log(bt.obj + " - nothing yet")
+            if (type === "window") {
+                if (bt.obj === "min") return app.showMinimized()
+                if (bt.obj === "max") return console.log(app.visibility), app.visibility === 4 ? app.showNormal() :app.showMaximized()
+                if (bt.obj === "close") return app.close()
+
+            }
         }
 
         function changeWorkspace(e) {
@@ -186,7 +194,7 @@ ApplicationWindow {
                 id: topBar
                 background.visible:false;
                 height:27 * ez.multi
-                width:window.width
+                width:app.width
                 contentItem: Row {
                     Text {
                         text:"<img width='"+ez.style.sizes.logo+"' height='"+ez.style.sizes.logo+"' src='"+ez.style.images.logo+"'></img>"
@@ -204,7 +212,7 @@ ApplicationWindow {
                         font.pointSize: ez.style.sizes.text
                         onClicked:ez.detectCommand(modelData, "topBar")
                         background: Rectangle {
-                            color: highlighted ?  ez.style.colors.darkBorders : ez.style.colors.header
+                            color: highlighted ? ez.style.colors.darkBorders : ez.style.colors.header
 
 
                         }
@@ -229,10 +237,10 @@ ApplicationWindow {
                                     padding: 3 * ez.multi
                                     horizontalPadding :15 * ez.multi
                                     enabled: modelData? true : false
-                                    onClicked: ez.detectCommand(modelData, ["topBar",container.obj])
+                                    onClicked: ez.detectCommand(modelData, ["topBar",container.obj],this)
                                     background: Rectangle {
 
-                                        color: highlighted ?  ez.style.colors.darkBorders: ez.style.colors.bg
+                                        color: highlighted ? ez.style.colors.darkBorders: ez.style.colors.bg
 
                                     }
                                 }
@@ -247,27 +255,30 @@ ApplicationWindow {
         }
 
 
- MenuBar {
- height:parent.height
- width:parent.height*3
- background.visible:false
- anchors.right:parent.right
-Repeater {
+        MenuBar {
+            height:parent.height
+            width:parent.height*3
+            background.visible:false
+            anchors.right:parent.right
+            Repeater {
 
-                    model: ez.appButtons.window
+                model: ez.appButtons.window
 
-                    MenuItem {
-                        font.pointSize: 9
-                        //background.visible: false
-                        width:parent.height; height:parent.height
-                        icon.source: ez.style.images.icons.win.url + modelData.obj + ".svg"
-                        icon.color: this.hovered ? ez.style.colors.textB : ez.style.colors.textA
-                        onClicked: ez.detectCommand(modelData, "window")
-                        background:Rectangle{color:ez.style.colors.header;}
+                MenuItem {
+                    font.pointSize:ez.style.sizes.text
+                    //background.visible: false
+                    width:parent.height; height:parent.height
+                    icon.source: ez.style.images.icons.win.url + modelData.obj + ".svg"
+                    icon.color: this.hovered ? ez.style.colors.textB : ez.style.colors.textA
+                    icon.width:ez.style.sizes.icon; icon.height:ez.style.sizes.icon;
+                    onClicked: ez.detectCommand(modelData, "window",this)
+                    background:Rectangle {
+                        color:ez.style.colors.header;
+                    }
 
                 }
-}
-}
+            }
+        }
     }
     header: Rectangle {
         color:ez.style.colors.header
@@ -285,7 +296,7 @@ Repeater {
             padding: 3 * ez.multi
             horizontalPadding :15* ez.multi
             background:Rectangle {
-                width:window.width
+                width:app.width
                 visible:false
             }
             Repeater {
@@ -302,10 +313,11 @@ Repeater {
 
                     icon.color: checked ? ez.style.colors.highlight : (hovered ? ez.style.colors.textB :ez.style.colors.textA)
                     font.pointSize: ez.style.sizes.text
-                    ToolTip{
+                    ToolTip {
                         delay:500
-                    text: modelData.display
-                    visible:modelData? hovered: false}
+                        text: modelData ? modelData.display : ""
+                        visible:modelData? hovered: false
+                    }
 
                     Rectangle {
                         visible: !modelData ? true : false
@@ -316,11 +328,11 @@ Repeater {
                     }
 
                     //background.visible:false
-                    background: Rectangle{
+                    background: Rectangle {
                         visible:false
                         color: ez.style.colors.darkBorders
                     }
-                    onClicked: ez.detectCommand(modelData, "workspace")
+                    onClicked: ez.detectCommand(modelData, "workspace",this)
                     onHoveredChanged:background.visible = hovered * enabled
 
                 }
@@ -336,7 +348,7 @@ Repeater {
         height:menuBar.height/1.1
 
         Text {
-        id:footerMark
+            id:footerMark
             anchors.left:parent.left
             anchors.verticalCenter: parent.verticalCenter
             anchors.margins:10 * ez.multi
