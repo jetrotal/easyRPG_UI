@@ -317,8 +317,8 @@ ApplicationWindow {
 
                                     Text{
                                         opacity: parent.contentItem.opacity
-                                        text:try{(modelData.shortcut ? "<font color='"+ (parent.highlighted ? ez.style.colors.textB : ez.style.colors.textA)+"'>" + modelData.shortcut +"</font> " : "")
-                                        }catch(e){""}
+                                        text:modelData? (modelData.shortcut ? "<font color='"+ (parent.highlighted ? ez.style.colors.textB : ez.style.colors.textA)+"'>" + modelData.shortcut +"</font> " : "")
+                                        : "";
                                         font.pointSize: parent.font.pointSize
                                         padding:parent.padding
                                         anchors.right: parent.right
@@ -326,9 +326,9 @@ ApplicationWindow {
 
                                     }
 
-                                    checkable: try{ modelData.checkbox }catch(e){0}
-                                    checked: try{ modelData.checked }catch(e){0}
-                                    
+                                    checkable: modelData ? (modelData.checkbox ? modelData.checkbox :false) : false
+                                    checked: modelData ? (modelData.checked ? modelData.checked : false ): false
+
                                     indicator:Column {
                                         anchors.verticalCenter:parent.verticalCenter
                                         x:ez.style.sizes.checkboxSpacing
