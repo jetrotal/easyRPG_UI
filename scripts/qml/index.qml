@@ -486,7 +486,7 @@ ApplicationWindow {
         Rectangle {}
     }
 
-    property int pathIsLocal: 1
+    property int pathIsLocal: 0
     property int debug: 1
     property var debugParams:{"displayBorders":debug, "displayButtons":debug, "listProperties":debug }
 }
