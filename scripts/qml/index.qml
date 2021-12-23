@@ -289,7 +289,7 @@ ApplicationWindow {
 
                             id:container
                             property var obj: modelData.obj
-                            title: "<font color='"+ (highlighted ? ez.style.colors.textB : ez.style.colors.textA)+"'>" + modelData.display+"test</font>"
+                            title: "<font color='"+ (highlighted ? ez.style.colors.textB : ez.style.colors.textA)+"'>" + modelData.display+"</font>"
                             font.pointSize: ez.style.sizes.text
                             width:implicitWidth * ez.resizeFactor
 
