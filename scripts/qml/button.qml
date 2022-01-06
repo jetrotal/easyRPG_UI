@@ -5,7 +5,7 @@ width: 20;
 height: 20;
 
 Text {
-    text: '0'
+    text: 'newGuy'
     anchors.centerIn: parent
 }
 }
