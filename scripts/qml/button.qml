@@ -1,11 +1,12 @@
 import QtQuick 2.0; 
 Rectangle  {
 color: "red"; 
-implicitWidth: 20; 
+implicitWidth: this.textArea.width;
 implicitHeight: 20;
 
 Text {
-    text: 'newDude'
+id:textArea
+    text: 'newTest'
     anchors.centerIn: parent
 }
 }
