@@ -6,7 +6,7 @@ implicitHeight: 20;
 
 Text {
 id:textArea
-    text: 'newNightmare'
+    text: 'newGuy'
     anchors.centerIn: parent
 }
 }
