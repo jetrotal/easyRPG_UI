@@ -1,8 +1,8 @@
 import QtQuick 2.0; 
 Rectangle  {
 color: "red"; 
-width: 20; 
-height: 20;
+implicitWidth: 20; 
+implicitHeight: 20;
 
 Text {
     text: 'newGuy'
