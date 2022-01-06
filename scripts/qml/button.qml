@@ -6,7 +6,7 @@ implicitHeight: 20;
 
 Text {
 id:textArea
-    text: 'newRectangle'
+    text: 'newItem'
     anchors.centerIn: parent
 }
 }
