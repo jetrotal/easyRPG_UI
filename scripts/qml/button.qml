@@ -5,7 +5,7 @@ implicitWidth: 20;
 implicitHeight: 20;
 
 Text {
-    text: 'newGuy'
+    text: 'newDude'
     anchors.centerIn: parent
 }
 }
