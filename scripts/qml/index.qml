@@ -6,7 +6,7 @@ import QtQuick.Window 2.2
 
 ApplicationWindow {
     property string assets:
-    (pathIsLocal ? Qt.resolvedUrl(".") : "https://raw.githubusercontent.com/jetrotal/easyRPG_layout/main/")
+    (pathIsLocal ? Qt.resolvedUrl(".") : "https://raw.githubusercontent.com/jetrotal/easyRPG_UI/main/")
 
     id: app
     visible: true
@@ -209,10 +209,8 @@ ApplicationWindow {
             if (debugParams.listProperties===1) console.log(ez.listProperties(qmlItem))
 
 
-            if (type === "workspace")
-                return changeWorkspace(bt)
-            if (type === "window")
-                return resizeWindow(bt)
+            if (type === "workspace") return changeWorkspace(bt)
+            if (type === "window") return resizeWindow(bt)
 
         }
 
